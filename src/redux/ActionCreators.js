@@ -165,10 +165,8 @@ export const leadersFailed = (errmess) => ({
 
 export const fetchLeaders = () => (dispatch) => {
     dispatch(leadersLoading(true));
-    console.debug("fetchLeaders...");
     return fetch(baseUrl + 'leaders')
         .then(response => {
-            console.debug("fetchLeaders Resp ::", response);
             if (response.ok) {
                 return response;
             } else {
