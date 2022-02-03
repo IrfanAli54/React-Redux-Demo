@@ -3,34 +3,39 @@ import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, CardTitle, Card
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
+import { Fade, Stagger } from 'react-animation-components';
 
+function renderLeaders(leaders) {
 
-function RenderLeader({ leader }) {
+    const leadersList = <Stagger in>
+        {
+            leaders.map((leader) => {
+                return <Fade in>
+                    <div className="row row-content">
+                        <div className="col-1 col-md-2">
+                            <img src={baseUrl + leader.image} alt={leader.name} />
+                        </div>
+                        <div className="col-8 col-md-6">
+                            <h2>{leader.name}</h2>
+                            <p>{leader.designation}</p>
+                            <p>{leader.description}</p>
+                        </div>
+                    </div>
+                </Fade>
+            })
+        }
+    </Stagger>
+
     return (
-        <div>
-            <div className="row row-content">
-                <div className="col-1 col-md-2">
-                    <img src={baseUrl + leader.image} alt={leader.name} />
-                </div>
-                <div className="col-8 col-md-6">
-                    <h2>{leader.name}</h2>
-                    <p>{leader.designation}</p>
-                    <p>{leader.description}</p>
-                </div>
-            </div>
+        <div className="col-12">
+            <Media list>
+                {leadersList}
+            </Media>
         </div>
     );
 }
 
-
 function About({ leaderLoading, leaderErrMess, leaders }) {
-
-    const leadersList = leaders.map((leader) => {
-        return (
-            <RenderLeader key={leader.id} leader={leader} />
-        );
-    });
-
     return (
         <div className="container">
             <div className="row">
@@ -87,11 +92,7 @@ function About({ leaderLoading, leaderErrMess, leaders }) {
                 </div>
                 {leaderLoading && <Loading />}
                 {leaderErrMess && <h4>leaderErrMess</h4>}
-                <div className="col-12">
-                    <Media list>
-                        {leadersList}
-                    </Media>
-                </div>
+                {renderLeaders(leaders)}
             </div>
         </div>
     );
